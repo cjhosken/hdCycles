@@ -29,6 +29,11 @@
 #include "kernel/integrator/state_util.h"
 #include "kernel/sample/lcg.h"
 
+
+#ifdef HOUDINI
+using namespace embree_3_13_1_sidefx;
+#endif
+
 CCL_NAMESPACE_BEGIN
 
 #ifdef __KERNEL_ONEAPI__

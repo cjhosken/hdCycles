@@ -20,6 +20,11 @@
 #  define __EMBREE__
 #endif
 
+
+#ifdef HOUDINI
+using namespace embree_3_13_1_sidefx;
+#endif
+
 #ifdef __APPLE__
 #  include <TargetConditionals.h>
 #endif

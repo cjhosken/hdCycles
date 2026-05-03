@@ -250,7 +250,9 @@ if(MSVC AND EXISTS ${_cycles_lib_dir})
     debug ${PUGIXML_ROOT_DIR}/lib/pugixml_d.lib
   )
 else()
-  find_package(OpenImageIO REQUIRED)
+  if (NOT OPENIMAGEIO_FOUND)
+    find_package(OpenImageIO REQUIRED)
+  endif()
   if(OPENIMAGEIO_PUGIXML_FOUND)
     set(PUGIXML_INCLUDE_DIR "${OPENIMAGEIO_INCLUDE_DIR}/OpenImageIO")
     set(PUGIXML_LIBRARIES "")
@@ -267,14 +269,23 @@ else()
   find_package(OpenJPEG REQUIRED)
 endif()
 
+if (NOT JPEG_FOUND)
 find_package(JPEG REQUIRED)
+endif()
+
+if (NOT TIFF_FOUND)
 find_package(TIFF REQUIRED)
+endif()
+
 find_package(WebP)
 
 if(EXISTS ${_cycles_lib_dir})
   set(PNG_NAMES png16 libpng16 png libpng)
 endif()
+
+if (NOT PNG_FOUND)
 find_package(PNG REQUIRED)
+endif()
 
 if(WIN32)
   add_bundled_libraries(openimageio/bin)
@@ -302,7 +313,9 @@ if(MSVC AND EXISTS ${_cycles_lib_dir})
     debug ${OPENEXR_ROOT_DIR}/lib/IlmThread_d.lib
     )
 else()
+  if (NOT OPENEXR_FOUND)
   find_package(OpenEXR REQUIRED)
+  endif()
 endif()
 
 if(WIN32)
@@ -548,7 +561,9 @@ if(WITH_CYCLES_EMBREE)
       endif()
     endif()
   else()
+    if (NOT EMBREE_FOUND)
     find_package(Embree 3.8.0 REQUIRED)
+    endif()
   endif()
 endif()
 
@@ -630,7 +645,9 @@ endif()
 
 if(WITH_CYCLES_OPENIMAGEDENOISE)
   set(WITH_OPENIMAGEDENOISE ON)
+  if (NOT OPENIMAGEDENOISE_FOUND)
   find_package(OpenImageDenoise REQUIRED)
+  endif()
 endif()
 
 if(WIN32)
@@ -697,7 +714,9 @@ if(WITH_CYCLES_ALEMBIC)
       optimized ${_cycles_lib_dir}/alembic/lib/Alembic.lib
       debug ${_cycles_lib_dir}/alembic/lib/Alembic_d.lib)
   else()
+    if (NOT ALEMBIC_FOUND)
     find_package(Alembic REQUIRED)
+    endif()
   endif()
 
   set(WITH_ALEMBIC ON)
@@ -717,9 +736,12 @@ if(WITH_USD)
   if(DEFINED _cycles_lib_dir)
     # USD linking needs to be able to find MaterialX libraries.
     link_directories(${MATERIALX_ROOT_DIR}/lib)
+    link_directories(${MATERIALX_LIBRARIES})
 
     if(UNIX AND NOT APPLE)
-      find_package(MaterialX)
+      if (NOT MATERIALX_FOUND)
+        find_package(MaterialX)
+      endif()
       list(APPEND USD_LIBRARIES
         MaterialXCore
         MaterialXFormat
