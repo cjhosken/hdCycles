@@ -1,0 +1,15 @@
+cd /opt/hfs21.0
+unset LD_LIBRARY_PATH
+
+source houdini_setup_bash
+
+export PXR_PLUGINPATH_NAME=$HOME/dev/hdCycles/install/hydra:$PXR_PLUGINPATH_NAME
+export TF_DEBUG=*
+
+HOUDINI_DISABLE_HYDRA_PLUGINS=1
+
+__NV_PRIME_RENDER_OFFLOAD=1 \
+__NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0 \
+__GLX_VENDOR_LIBRARY_NAME=nvidia \
+__VK_LAYER_NV_optimus=NVIDIA_only \
+houdini

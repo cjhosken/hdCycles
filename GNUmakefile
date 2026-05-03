@@ -52,3 +52,6 @@ update_legacy:
 
 format:
 	$(PYTHON) src/cmake/make_format.py
+
+houdini:
+	$(PYTHON) src/cmake/make_houdini.py --hfs=$(HFS)
